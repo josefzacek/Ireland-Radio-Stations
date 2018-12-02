@@ -31,3 +31,30 @@ for (var index = 0; index < 4; index++) {
     </div>
   `)
 }
+//  Setup our new radio and pass in the stations.
+var radio = new Radio([
+  {
+    title: 'East Coast FM',
+    src: ['http://sirius.shoutca.st:8461/;stream.mp3'],
+    img: 'images/east-coast-fm.png',
+    howl: null
+  },
+  {
+    title: 'Radio Nova',
+    src: ['http://edge-ads-02-gos1.sharp-stream.com/nova.mp3'],
+    img: 'images/radio-nova.png',
+    howl: null
+  },
+  {
+    title: 'Q102',
+    src: ['https://wg.cdn.tibus.net/q102MP3128'],
+    img: 'images/q102.png',
+    howl: null
+  },
+  {
+    title: 'Newstalk',
+    src: ['https://stream.audioxi.com/NT'],
+    img: 'images/newstalk.png',
+    howl: null
+  }
+])
