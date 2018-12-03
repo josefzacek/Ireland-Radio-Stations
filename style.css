@@ -1,0 +1,42 @@
+* { font-family: 'Roboto', sans-serif; }
+
+body { margin: 0; padding: 0; background-color: #fede5e; background-image: url("images/headphones.jpg"); background-repeat: no-repeat; background-position: top center; }
+
+.container { max-width: 1110px; margin: 20vh auto; padding: 20px; }
+
+img { width: 100%; height: auto; }
+
+h1 { line-height: 0.9em; font-size: 50px; text-shadow: -1px 0 #ffffff, 0 1px #ffffff, 1px 0 #ffffff, 0 -1px #ffffff; }
+
+.stations { display: -webkit-box; display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; -webkit-box-align: start; -ms-flex-align: start; align-items: flex-start; -webkit-box-orient: horizontal; -webkit-box-direction: normal; -ms-flex-direction: row; flex-direction: row; -webkit-box-pack: justify; -ms-flex-pack: justify; justify-content: space-between; }
+
+.station { cursor: pointer; background-color: #fff; margin-bottom: 2%; -ms-flex-preferred-size: 49%; flex-basis: 49%; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-orient: vertical; -webkit-box-direction: normal; -ms-flex-direction: column; flex-direction: column; -webkit-box-align: center; -ms-flex-align: center; align-items: center; padding: 10px; -webkit-box-sizing: border-box; box-sizing: border-box; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; position: relative; }
+@media (min-width: 576px) { .station { -ms-flex-preferred-size: 32%; flex-basis: 32%; } }
+@media (min-width: 768px) { .station { -ms-flex-preferred-size: 23.5%; flex-basis: 23.5%; } }
+.station svg { position: absolute; }
+.station .stop-button { display: none; }
+.station .title { text-align: center; opacity: 0.2; }
+.station:hover { -webkit-box-shadow: 0px 0px 9px 1px #757575; box-shadow: 0px 0px 9px 1px #757575; }
+.station:hover svg { display: none; }
+.station:hover .title { opacity: 1; }
+.station.active .title { opacity: 1; }
+.station.active .play-button { display: none; }
+.station.active .sound-wave { display: block !important; }
+.station.active:hover .stop-button { display: block; }
+.station .sound-wave { height: 30px; position: absolute; top: 10px; right: 10px; width: 40px; display: none; }
+.station .sound-wave .bar { background: #000000; bottom: 1px; height: 3px; position: absolute; width: 3px; -webkit-animation: sound 0ms -800ms linear infinite alternate; animation: sound 0ms -800ms linear infinite alternate; }
+.station .sound-wave .bar:nth-child(1) { left: 1px; -webkit-animation-duration: 474ms; animation-duration: 474ms; }
+.station .sound-wave .bar:nth-child(2) { left: 5px; -webkit-animation-duration: 433ms; animation-duration: 433ms; }
+.station .sound-wave .bar:nth-child(3) { left: 9px; -webkit-animation-duration: 407ms; animation-duration: 407ms; }
+.station .sound-wave .bar:nth-child(4) { left: 13px; -webkit-animation-duration: 458ms; animation-duration: 458ms; }
+.station .sound-wave .bar:nth-child(5) { left: 17px; -webkit-animation-duration: 400ms; animation-duration: 400ms; }
+.station .sound-wave .bar:nth-child(6) { left: 21px; -webkit-animation-duration: 427ms; animation-duration: 427ms; }
+.station .sound-wave .bar:nth-child(7) { left: 25px; -webkit-animation-duration: 441ms; animation-duration: 441ms; }
+.station .sound-wave .bar:nth-child(8) { left: 29px; -webkit-animation-duration: 419ms; animation-duration: 419ms; }
+.station .sound-wave .bar:nth-child(9) { left: 33px; -webkit-animation-duration: 487ms; animation-duration: 487ms; }
+@-webkit-keyframes sound { 0% { opacity: .35; height: 3px; }
+  100% { opacity: 1; height: 28px; } }
+@keyframes sound { 0% { opacity: .35; height: 3px; }
+  100% { opacity: 1; height: 28px; } }
+
+/*# sourceMappingURL=style.css.map */
