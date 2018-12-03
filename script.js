@@ -31,6 +31,106 @@ for (var index = 0; index < 4; index++) {
     </div>
   `)
 }
+
+/*!
+ *  Howler.js Radio Demo
+ *  howlerjs.com
+ *
+ *  (c) 2013-2018, James Simpson of GoldFire Studios
+ *  goldfirestudios.com
+ *
+ *  MIT License
+ */
+
+/**
+ * Radio class containing the state of our stations.
+ * Includes all methods for playing, stopping, etc.
+ * @param {Array} stations Array of objects with station details ({title, src, howl, ...}).
+ */
+var Radio = function (stations) {
+  var self = this
+
+  self.stations = stations
+  self.index = 0
+
+  // Setup the display for each station.
+  for (var i = 0; i < self.stations.length; i++) {
+    // window['title' + i].innerHTML = '<b>' + self.stations[i].title + '</b> '
+    window['img' + i].src = self.stations[i].img
+    window['img' + i].alt = self.stations[i].title
+
+    // document.getElementById("imageid").src="../template/save.png";
+    window['station' + i].addEventListener('click', function (index) {
+      var isNotPlaying = (self.stations[index].howl && !self.stations[index].howl.playing())
+
+      // Stop other sounds or the current one.
+      radio.stop()
+
+      // If the station isn't already playing or it doesn't exist, play it.
+      if (isNotPlaying || !self.stations[index].howl) {
+        radio.play(index)
+      }
+    }.bind(self, i))
+  }
+}
+Radio.prototype = {
+  /**
+   * Play a station with a specific index.
+   * @param  {Number} index Index in the array of stations.
+   */
+  play: function (index) {
+    var self = this
+    var sound
+
+    index = typeof index === 'number' ? index : self.index
+    var data = self.stations[index]
+
+    sound = data.howl = new Howl({
+      src: data.src,
+      html5: true, // A live stream can only be played through HTML5 Audio.
+      format: ['mp3', 'aac']
+    })
+    // }
+
+    // Begin playing the sound.
+    sound.play()
+
+    // Toggle the display.
+    self.toggleStationDisplay(index, true)
+
+    // Keep track of the index we are currently playing.
+    self.index = index
+  },
+
+  /**
+   * Stop a station's live stream.
+   */
+  stop: function () {
+    var self = this
+
+    // Get the Howl we want to manipulate.
+    var sound = self.stations[self.index].howl
+
+    // Toggle the display.
+    self.toggleStationDisplay(self.index, false)
+
+    // Stop the sound.
+    if (sound) {
+      sound.stop()
+    }
+  },
+
+  /**
+   * Toggle the display of a station to off/on.
+   * @param  {Number} index Index of the station to toggle.
+   * @param  {Boolean} state true is on and false is off.
+   */
+  toggleStationDisplay: function (index, state) {
+    // add class "active" to currently playing station
+    window['station' + index].classList = state ? 'station active' : 'station'
+  }
+}
+
 //  Setup our new radio and pass in the stations.
 var radio = new Radio([
   {
