@@ -134,6 +134,12 @@ Radio.prototype = {
 //  Setup our new radio and pass in the stations.
 var radio = new Radio([
   {
+    title: 'Kfm',
+    src: ['http://cty.gocaster.net:8000/kfm_web'],
+    img: 'images/kfm.png',
+    howl: null
+  },
+  {
     title: 'East Coast FM',
     src: ['http://sirius.shoutca.st:8461/;stream.mp3'],
     img: 'images/east-coast-fm.png',
