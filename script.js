@@ -1,4 +1,4 @@
-for (var index = 0; index < 4; index++) {
+for (var index = 0; index < 5; index++) {
   $('.stations').append(`
     <div id="station${index}" class="station">
 
@@ -133,6 +133,12 @@ Radio.prototype = {
 
 //  Setup our new radio and pass in the stations.
 var radio = new Radio([
+  {
+    title: 'Kfm',
+    src: ['http://cty.gocaster.net:8000/kfm_web'],
+    img: 'images/kfm.png',
+    howl: null
+  },
   {
     title: 'East Coast FM',
     src: ['http://sirius.shoutca.st:8461/;stream.mp3'],
