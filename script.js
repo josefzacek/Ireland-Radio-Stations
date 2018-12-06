@@ -137,30 +137,35 @@ var radio = new Radio([
     title: 'Kfm',
     src: ['http://cty.gocaster.net:8000/kfm_web'],
     img: 'images/kfm.png',
+    frequency: '97.6fm & 97.3fm',
     howl: null
   },
   {
     title: 'East Coast FM',
     src: ['http://sirius.shoutca.st:8461/;stream.mp3'],
     img: 'images/east-coast-fm.png',
+    frequency: '94.9fm, 96.2fm, 99.9fm, 102.9fm & 104.4fm',
     howl: null
   },
   {
     title: 'Radio Nova',
     src: ['http://edge-ads-02-gos1.sharp-stream.com/nova.mp3'],
     img: 'images/radio-nova.png',
+    frequency: '100.3fm & 100.5fm',
     howl: null
   },
   {
     title: 'Q102',
     src: ['https://wg.cdn.tibus.net/q102MP3128'],
     img: 'images/q102.png',
+    frequency: '102.2fm',
     howl: null
   },
   {
     title: 'Newstalk',
     src: ['https://stream.audioxi.com/NT'],
     img: 'images/newstalk.png',
+    frequency: '106fm & 108fm',
     howl: null
   }
 ])
