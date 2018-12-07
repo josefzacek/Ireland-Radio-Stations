@@ -148,6 +148,13 @@ var radio = new Radio([
     howl: null
   },
   {
+    title: 'Dublin\'s 98FM',
+    src: ['http://sirius.shoutca.st:8461/;stream.mp3'],
+    img: 'images/dublins-98fm.png',
+    frequency: '98fm',
+    howl: null
+  },
+  {
     title: 'Radio Nova',
     src: ['http://edge-ads-02-gos1.sharp-stream.com/nova.mp3'],
     img: 'images/radio-nova.png',
