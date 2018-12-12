@@ -1,4 +1,4 @@
-for (var index = 0; index < 7; index++) {
+for (var index = 0; index < 8; index++) {
   $('.stations').append(`
     <div id="station${index}" class="station">
 
@@ -180,6 +180,13 @@ var radio = new Radio([
     src: ['http://icecast1.rte.ie/radio1'],
     img: 'images/rte-radio1.png',
     frequency: '88 - 90fm',
+    howl: null
+  },
+  {
+    title: 'Classic Hits',
+    src: ['http://stream.audioxi.com/CLASSIC'],
+    img: 'images/classic-hits.png',
+    frequency: '94 - 105fm',
     howl: null
   }
 ])
