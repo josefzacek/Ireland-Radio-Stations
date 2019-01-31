@@ -156,7 +156,7 @@ var radio = new Radio([
   },
   {
     title: 'Dublin\'s 98FM',
-    src: ['http://sirius.shoutca.st:8461/;stream.mp3'],
+    src: ['https://stream.audioxi.com/98'],
     img: 'images/dublins-98fm.png',
     frequency: '98fm',
     howl: null
