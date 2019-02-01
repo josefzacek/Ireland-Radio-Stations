@@ -141,6 +141,13 @@ var radio = new Radio([
     howl: null
   },
   {
+    title: 'FM104',
+    src: ['https://wg.cdn.tibus.net/fm104MP3128'],
+    img: 'images/fm104.png',
+    frequency: '104.4fm',
+    howl: null
+  },
+  {
     title: 'Kfm',
     src: ['http://cty.gocaster.net:8000/kfm_web'],
     img: 'images/kfm.png',
