@@ -1,4 +1,4 @@
-for (var index = 0; index < 9; index++) {
+for (var index = 0; index < 10; index++) {
   $('.stations').append(`
     <div id="station${index}" class="station">
 
@@ -138,6 +138,13 @@ var radio = new Radio([
     src: ['https://15843.live.streamtheworld.com/TODAY_FM.mp3'],
     img: 'images/today-fm.png',
     frequency: '101.8fm',
+    howl: null
+  },
+  {
+    title: 'FM104',
+    src: ['https://wg.cdn.tibus.net/fm104MP3128'],
+    img: 'images/fm104.png',
+    frequency: '104.4fm',
     howl: null
   },
   {
