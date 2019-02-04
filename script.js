@@ -1,4 +1,4 @@
-for (var index = 0; index < 10; index++) {
+for (var index = 0; index < 11; index++) {
   $('.stations').append(`
     <div id="station${index}" class="station">
 
