@@ -141,6 +141,13 @@ var radio = new Radio([
     howl: null
   },
   {
+    title: 'Beat 102-103',
+    src: ['https://stream.audioxi.com/BEAT'],
+    img: 'images/beat.png',
+    frequency: '102fm - 103fm',
+    howl: null
+  },
+  {
     title: 'FM104',
     src: ['https://wg.cdn.tibus.net/fm104MP3128'],
     img: 'images/fm104.png',
