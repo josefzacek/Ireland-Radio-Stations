@@ -141,6 +141,13 @@ var radio = new Radio([
     howl: null
   },
   {
+    title: 'Spin1038',
+    src: ['https://stream.audioxi.com/SP'],
+    img: 'images/spin1038.png',
+    frequency: '103.8fm',
+    howl: null
+  },
+  {
     title: 'Beat 102-103',
     src: ['https://stream.audioxi.com/BEAT'],
     img: 'images/beat.png',
