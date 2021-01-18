@@ -186,7 +186,7 @@ var radio = new Radio([
   },
   {
     title: 'Radio Nova',
-    src: ['http://edge-ads-02-gos1.sharp-stream.com/nova.mp3'],
+    src: ['https://edge2.audioxi.com/NOVA'],
     img: 'images/radio-nova.png',
     frequency: '100.3fm & 100.5fm',
     howl: null
