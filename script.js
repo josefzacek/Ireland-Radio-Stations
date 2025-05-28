@@ -1,222 +1,114 @@
-/*!
- *  Howler.js Radio Demo
- *  howlerjs.com
- *
- *  (c) 2013-2018, James Simpson of GoldFire Studios
- *  goldfirestudios.com
- *
- *  MIT License
- */
+    // Fetch Irish stations
+    fetch("https://de1.api.radio-browser.info/json/stations/bycountry/Ireland")
+      .then(response => response.json())
+      .then(data => {
+        const list = document.getElementById("station-list");
+        const irishStations = data.filter(s => s.countrycode === "IE" && s.language !== "arabic");
 
-/**
- * Radio class containing the state of our stations.
- * Includes all methods for playing, stopping, etc.
- * @param {Array} stations Array of objects with station details ({title, src, howl, ...}).
- */
-var Radio = function (stations) {
-  var self = this
+        // list items
+        irishStations.forEach( (station, index) => {
+          const div = document.createElement("div");
+          // add class to div
+          div.className = "station";
+          // add index to div
+          div.id = `station${index}`;
+          // add data-url to div
+          div.setAttribute("data-url", station.url_resolved);
 
-  self.stations = stations
-  self.index = 0
+          div.innerHTML = `
 
-  for (var index = 0; index < self.stations.length; index++) {
-  // for (var index = 0; index < 12; index++) {
-    $('.stations').append(`
-      <div id="station${index}" class="station">
+           <svg class="play-button" viewBox="0 0 200 200" alt="Play video" width="30" height="30">
+              <circle cx="100" cy="100" r="90" fill="none" stroke-width="9" stroke="#000"/>
+              <polygon points="70, 55 70, 145 145, 100" fill="#000"/>
+            </svg>
 
-        <svg class="play-button" viewBox="0 0 200 200" alt="Play video" width="48" height="48">
-          <circle cx="100" cy="100" r="90" fill="none" stroke-width="9" stroke="#000"/>
-          <polygon points="70, 55 70, 145 145, 100" fill="#000"/>
-        </svg>
+            <svg class="stop-button" viewBox="0 0 200 200" width="30" height="30">
+              <circle cx="100" cy="100" r="90" fill="none" stroke-width="9" stroke="#CC0000"/>
+              <rect x="63" y="60" width="75" height="80" fill="#CC0000"/>
+            </svg>
 
-        <svg class="stop-button" viewBox="0 0 200 200" width="48" height="48">
-          <circle cx="100" cy="100" r="90" fill="none" stroke-width="9" stroke="#000"/>
-          <rect x="63" y="60" width="75" height="80" fill="#000"/>
-        </svg>
+            <div class="sound-wave">
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+            </div>
 
-        <div class="sound-wave">
-          <div class="bar"></div>
-          <div class="bar"></div>
-          <div class="bar"></div>
-          <div class="bar"></div>
-          <div class="bar"></div>
-          <div class="bar"></div>
-          <div class="bar"></div>
-          <div class="bar"></div>
-          <div class="bar"></div>
-        </div>
+            <div class="play-stop-button" style="background-image: url(${station.favicon ? station.favicon : 'images/radio-placeholder.png'})">
+              &nbsp;
+            </div>
 
-        <div class="title">
-          <img src="images/radio-placeholder.png" alt="title${index}" class="img" id="img${index}">
-        </div>
+            <span class="line"></span>
 
-      </div>
-    `)
+            <p>${station.name}</p>
+            <p style="display:none">${station.lastchecktime}</p> 
+            <a href="${station.homepage}" title="Go to ${station.homepage}" target="_blank">
+              Visit website
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
+                <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
+              </svg>
+            </a>
+          `;
+      
+          list.appendChild(div);
+          });
+        })
+      .catch(error => {
+        console.error("Error loading stations:", error);
+        document.getElementById("station-list").innerHTML = "<li>Failed to load stations</li>";
+      });
+
+  let currentSound = null;
+
+
+
+
+// Function to play station
+function playStation(url) {
+  // Stop and unload previous sound
+  if (currentSound) {
+    currentSound.stop();
+    currentSound.unload();
   }
 
+  // Create new Howl instance
+  currentSound = new Howl({
+    src: [url],
+    html5: true, // Needed for live streaming
+    format: ['mp3', 'aac'] // Optional hint
+  });
 
-  // Setup the display for each station.
-  for (var i = 0; i < self.stations.length; i++) {
-    // window['title' + i].innerHTML = '<b>' + self.stations[i].title + '</b> '
-    window['img' + i].src = self.stations[i].img
-    window['img' + i].alt = self.stations[i].title
+  currentSound.play();
+}
 
-    // document.getElementById("imageid").src="../template/save.png";
-    window['station' + i].addEventListener('click', function (index) {
-      var isNotPlaying = (self.stations[index].howl && !self.stations[index].howl.playing())
+// Event listener for play/stop
+document.addEventListener("DOMContentLoaded", () => {
+  document.body.addEventListener("click", (event) => {
+    if (event.target.classList.contains("play-stop-button")) {
+      const parent = event.target.parentElement;
+      const isActive = parent.classList.toggle("active");
 
-      // Stop other sounds or the current one.
-      radio.stop()
+      // Remove "active" class from sibling elements
+      const siblings = [...parent.parentElement.children].filter(el => el !== parent);
+      siblings.forEach(sib => sib.classList.remove("active"));
 
-      // If the station isn't already playing or it doesn't exist, play it.
-      if (isNotPlaying || !self.stations[index].howl) {
-        radio.play(index)
+      if (isActive) {
+        const url = parent.getAttribute("data-url");
+        if (url) {
+          playStation(url);
+        }
+      } else {
+        if (typeof currentSound !== "undefined") {
+          currentSound.stop();
+          currentSound.unload();
+        }
       }
-    }.bind(self, i))
-  }
-}
-Radio.prototype = {
-  /**
-   * Play a station with a specific index.
-   * @param  {Number} index Index in the array of stations.
-   */
-  play: function (index) {
-    var self = this
-    var sound
-
-    index = typeof index === 'number' ? index : self.index
-    var data = self.stations[index]
-
-    sound = data.howl = new Howl({
-      src: data.src,
-      html5: true, // A live stream can only be played through HTML5 Audio.
-      format: ['mp3', 'aac']
-    })
-    // }
-
-    // Begin playing the sound.
-    sound.play()
-
-    // Toggle the display.
-    self.toggleStationDisplay(index, true)
-
-    // Keep track of the index we are currently playing.
-    self.index = index
-  },
-
-  /**
-   * Stop a station's live stream.
-   */
-  stop: function () {
-    var self = this
-
-    // Get the Howl we want to manipulate.
-    var sound = self.stations[self.index].howl
-
-    // Toggle the display.
-    self.toggleStationDisplay(self.index, false)
-
-    // Stop the sound.
-    if (sound) {
-      sound.stop()
     }
-  },
-
-  /**
-   * Toggle the display of a station to off/on.
-   * @param  {Number} index Index of the station to toggle.
-   * @param  {Boolean} state true is on and false is off.
-   */
-  toggleStationDisplay: function (index, state) {
-    // add class "active" to currently playing station
-    window['station' + index].classList = state ? 'station active' : 'station'
-  }
-}
-
-//  Setup our new radio and pass in the stations.
-var radio = new Radio([
-  {
-    title: 'Today FM',
-    src: ['https://15843.live.streamtheworld.com/TODAY_FM.mp3'],
-    img: 'images/today-fm.png',
-    frequency: '101.8fm',
-    howl: null
-  },
-  {
-    title: 'Spin1038',
-    src: ['https://stream.audioxi.com/SP'],
-    img: 'images/spin1038.png',
-    frequency: '103.8fm',
-    howl: null
-  },
-  {
-    title: 'Beat 102-103',
-    src: ['https://stream.audioxi.com/BEAT'],
-    img: 'images/beat.png',
-    frequency: '102fm - 103fm',
-    howl: null
-  },
-  {
-    title: 'FM104',
-    src: ['https://wg.cdn.tibus.net/fm104MP3128'],
-    img: 'images/fm104.png',
-    frequency: '104.4fm',
-    howl: null
-  },
-  {
-    title: 'Kfm',
-    src: ['http://cty.gocaster.net:8000/kfm_web'],
-    img: 'images/kfm.png',
-    frequency: '97.6fm & 97.3fm',
-    howl: null
-  },
-  {
-    title: 'East Coast FM',
-    src: ['http://sirius.shoutca.st:8461/;stream.mp3'],
-    img: 'images/east-coast-fm.png',
-    frequency: '94.9fm, 96.2fm, 99.9fm, 102.9fm & 104.4fm',
-    howl: null
-  },
-  {
-    title: 'Dublin\'s 98FM',
-    src: ['https://stream.audioxi.com/98'],
-    img: 'images/dublins-98fm.png',
-    frequency: '98fm',
-    howl: null
-  },
-  {
-    title: 'Radio Nova',
-    src: ['https://edge2.audioxi.com/NOVA'],
-    img: 'images/radio-nova.png',
-    frequency: '100.3fm & 100.5fm',
-    howl: null
-  },
-  {
-    title: 'Q102',
-    src: ['https://wg.cdn.tibus.net/q102MP3128'],
-    img: 'images/q102.png',
-    frequency: '102.2fm',
-    howl: null
-  },
-  {
-    title: 'Newstalk',
-    src: ['https://stream.audioxi.com/NT'],
-    img: 'images/newstalk.png',
-    frequency: '106fm & 108fm',
-    howl: null
-  },
-  {
-    title: 'RTE Radio 1',
-    src: ['http://icecast1.rte.ie/radio1'],
-    img: 'images/rte-radio1.png',
-    frequency: '88 - 90fm',
-    howl: null
-  },
-  {
-    title: 'Classic Hits',
-    src: ['http://stream.audioxi.com/CLASSIC'],
-    img: 'images/classic-hits.png',
-    frequency: '94 - 105fm',
-    howl: null
-  }
-])
+  });
+});
