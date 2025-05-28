@@ -27,6 +27,10 @@ body {
       text-shadow: -1px 0 var(--white), 0 1px var(--white), 1px 0 var(--white), 0 -1px var(--white);
     }
   }
+  &.page-404 {
+    text-align: center;
+    background-image: none;
+  }
   & .container-fluid {
   padding: 0 10px 30px 10px;
     & .stations {
