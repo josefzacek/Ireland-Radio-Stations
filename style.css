@@ -19,7 +19,7 @@ body {
   background-position: top center;
   & .container {
     max-width: 1110px;
-    margin: 20vh auto;
+    margin: 20vh auto 5vh auto;
     padding: 20px;
     & h1 {
       line-height: 0.9em;
