@@ -19,12 +19,62 @@ body {
   background-position: top center;
   & .container {
     max-width: 1110px;
-    margin: 20vh auto;
+    margin: 20vh auto 5vh auto;
     padding: 20px;
     & h1 {
       line-height: 0.9em;
       font-size: 50px;
       text-shadow: -1px 0 var(--white), 0 1px var(--white), 1px 0 var(--white), 0 -1px var(--white);
+    }
+    & .search-holder {
+      position: relative;
+      max-width: 500px;
+      margin: 70px auto 0 auto;
+      input[type="text"] {
+        display: block;
+        width: calc(100% - 20px);
+        padding: 10px;
+        font-weight: 400;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        background: white;
+        border-radius: 6px;
+        border: 2px solid #000;
+        font-size: 18px;
+        &.active {
+          border-bottom: none;
+          border-radius: 6px 6px 0 0;
+        }
+      }
+      svg.clear-search {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        cursor: pointer;
+      }
+      #search-box-suggestions {
+        background: var(--white);
+        border-radius: 0 0 6px 6px;
+        border: 2px solid var(--black);
+        position: absolute;
+        z-index: 99;
+        width: 100%;
+        max-height: 178px;
+        overflow-y: scroll;
+        border-top: 1px solid var(--black);
+        display: none;
+        & .suggestion {
+          padding: 5px 10px;
+          cursor: pointer;
+          &:hover {
+            background-color: var(--yellow);
+          }
+        }
+        & .no-search-results {
+          padding: 10px;
+          font-weight: 500;
+          color: var(--red);
+        }
+      }
     }
   }
   &.page-404 {
@@ -168,7 +218,7 @@ body {
         p {
           font-weight: 500;
           text-align: center;
-          min-height: 40px;
+          min-height: 42px;
           font-size: 13px;
           @media(min-width: 1000px) {
             font-size: 18px;
@@ -209,6 +259,10 @@ body {
             }
           }
         }
+        &.station-searched-for {
+          animation: scaleBounce 3s ease;
+          box-shadow: inset 0px 0px 0px 4px var(--red)
+        }
       }
     }
   }
@@ -235,5 +289,23 @@ body {
   100% {
     opacity: 1;
     height: 28px;
+  }
+}
+
+@keyframes scaleBounce {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1);
+  }
+  70% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1);
   }
 }

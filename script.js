@@ -112,3 +112,73 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+// search functionality
+document.getElementById('search-box').addEventListener('input', function () {
+  const searchBox = document.getElementById('search-box');
+  const query = this.value.toLowerCase();
+  const stations = document.querySelectorAll('.station');
+  const suggestionsBox = document.getElementById('search-box-suggestions');
+  suggestionsBox.innerHTML = '';
+
+  // show or hide suggestions box based on search input
+  if (searchBox.value.length > 0) {
+    searchBox.classList.add('active');
+    suggestionsBox.style.display = 'block';
+  } else  {
+    searchBox.classList.remove('active');
+    suggestionsBox.style.display = 'none';
+  }
+
+  if (query.length === 0) {
+    suggestionsBox.innerHTML = '';
+    return;
+  }
+
+  stations.forEach(station => {
+    const nameEl = station.querySelector('p');
+    const stationName = nameEl ? nameEl.textContent.toLowerCase() : '';
+
+    if (stationName.includes(query)) {
+      const suggestion = document.createElement('div');
+      suggestion.textContent = nameEl.textContent;
+      suggestion.classList.add('suggestion');
+
+      suggestion.onclick = () => {
+        station.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        station.classList.add('station-searched-for');
+        setTimeout(() => (station.classList.remove('station-searched-for')), 3000);
+        resetSearch();
+      } 
+      suggestionsBox.appendChild(suggestion);
+    }
+  });
+
+  // If no suggestions found, show "Sorry, no station found" message
+  if (suggestionsBox.children.length === 0) {
+    const noResults = document.createElement('div');
+    noResults.textContent = 'Sorry, no station found';
+    noResults.classList.add('no-search-results');
+    suggestionsBox.appendChild(noResults);
+  }
+});
+
+// click on .clear-search button to clear search input box and suggestions
+document.querySelector('.clear-search').addEventListener('click', function () {
+  resetSearch()
+});
+
+// click on .suggestion to clear search input box and suggestions
+document.getElementById('search-box-suggestions').addEventListener('click', function (event) {
+  if (event.target.classList.contains('suggestion')) {
+    resetSearch();
+  }
+});
+
+//clear search input box and suggestions
+function resetSearch() {
+  document.getElementById('search-box').value = '';
+  document.getElementById('search-box-suggestions').innerHTML = '';
+  document.getElementById('search-box-suggestions').style.display = 'none';
+  document.getElementById('search-box').classList.remove('active');
+};
