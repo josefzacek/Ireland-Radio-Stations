@@ -182,3 +182,23 @@ function resetSearch() {
   document.getElementById('search-box-suggestions').style.display = 'none';
   document.getElementById('search-box').classList.remove('active');
 };
+
+
+// Back to top button functionality
+const backToTopBtn = document.querySelector('.arrow-up');
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 300) {
+    backToTopBtn.classList.add('show');
+  } else {
+    backToTopBtn.classList.remove('show');
+  }
+});
+
+backToTopBtn.addEventListener('click', function (event) {
+  event.preventDefault();
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
