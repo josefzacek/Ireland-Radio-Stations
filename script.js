@@ -1,5 +1,5 @@
     // Fetch Irish stations
-    fetch("https://de1.api.radio-browser.info/json/stations/bycountry/Ireland")
+    fetch("https://fi1.api.radio-browser.info/json/stations/search?limit=1000&countrycode=IE&hidebroken=true")
       .then(response => response.json())
       .then(data => {
         const list = document.getElementById("station-list");
