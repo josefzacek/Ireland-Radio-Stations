@@ -135,6 +135,9 @@ document.getElementById('search-box').addEventListener('input', function () {
     return;
   }
 
+  // show or hide the clear search icon
+  showHideClearSearchIcon();
+
   stations.forEach(station => {
     const nameEl = station.querySelector('p');
     const stationName = nameEl ? nameEl.textContent.toLowerCase() : '';
@@ -181,8 +184,19 @@ function resetSearch() {
   document.getElementById('search-box-suggestions').innerHTML = '';
   document.getElementById('search-box-suggestions').style.display = 'none';
   document.getElementById('search-box').classList.remove('active');
+  showHideClearSearchIcon();
 };
 
+// show x icon when search bar is empty
+function showHideClearSearchIcon() {
+  const searchBox = document.getElementById('search-box');
+  const clearSearchIcon = document.querySelector('.clear-search');
+  if (searchBox.value.length > 0) {
+    clearSearchIcon.style.display = 'block';
+  } else {
+    clearSearchIcon.style.display = 'none';
+  }
+}
 
 // Back to top button functionality
 const backToTopBtn = document.querySelector('.arrow-up');

@@ -54,6 +54,7 @@ body {
         top: 12px;
         right: 12px;
         cursor: pointer;
+        display: none;
       }
       #search-box-suggestions {
         background: var(--white);
