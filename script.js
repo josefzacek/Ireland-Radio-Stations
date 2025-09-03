@@ -148,11 +148,22 @@ document.getElementById('search-box').addEventListener('input', function () {
       suggestion.classList.add('suggestion');
 
       suggestion.onclick = () => {
-        station.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const searchHolderContainer = document.querySelector('.search-holder-container');
+        const offset = searchHolderContainer ? searchHolderContainer.offsetHeight : 0;
+        const rect = station.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const top = rect.top + scrollTop - offset - 10; // -10 for a little spacing
+
+        window.scrollTo({
+          top: top,
+          behavior: 'smooth'
+        });
+
         station.classList.add('station-searched-for');
-        setTimeout(() => (station.classList.remove('station-searched-for')), 3000);
+        setTimeout(() => station.classList.remove('station-searched-for'), 3000);
         resetSearch();
-      } 
+      }
+
       suggestionsBox.appendChild(suggestion);
     }
   });
@@ -214,5 +225,20 @@ backToTopBtn.addEventListener('click', function (event) {
   window.scrollTo({
     top: 0,
     behavior: 'smooth'
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const searchHolderContainer = document.querySelector('.search-holder-container');
+  if (!searchHolderContainer) return;
+
+  const stickyOffset = searchHolderContainer.getBoundingClientRect().top + window.scrollY;
+
+  window.addEventListener('scroll', function() {
+    if (window.scrollY >= stickyOffset) {
+      searchHolderContainer.classList.add('active');
+    } else {
+      searchHolderContainer.classList.remove('active');
+    }
   });
 });
