@@ -216,3 +216,18 @@ backToTopBtn.addEventListener('click', function (event) {
     behavior: 'smooth'
   });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+  const searchHolderContainer = document.querySelector('.search-holder-container');
+  if (!searchHolderContainer) return;
+
+  const stickyOffset = searchHolderContainer.getBoundingClientRect().top + window.scrollY;
+
+  window.addEventListener('scroll', function() {
+    if (window.scrollY >= stickyOffset) {
+      searchHolderContainer.classList.add('active');
+    } else {
+      searchHolderContainer.classList.remove('active');
+    }
+  });
+});
