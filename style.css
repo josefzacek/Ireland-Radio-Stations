@@ -45,6 +45,7 @@ body {
       position: relative;
       max-width: 500px;
       margin: 0 auto;
+      padding: 0 10px;
       input[type="text"] {
         display: block;
         width: calc(100% - 20px);
@@ -73,13 +74,13 @@ body {
         border: 2px solid var(--black);
         position: absolute;
         z-index: 99;
-        width: 100%;
+        width: calc(100% - 20px);
         max-height: 178px;
         overflow-y: scroll;
         border-top: 1px solid var(--black);
         display: none;
         & .suggestion {
-          padding: 5px 10px;
+          padding: 10px;
           cursor: pointer;
           &:hover {
             background-color: var(--yellow);
