@@ -79,7 +79,6 @@ fetch("https://de1.api.radio-browser.info/json/stations/search?limit=1000&countr
     fetch('radio-stations.json')
       .then(response => response.json())
       .then(data => {
-        const list = document.getElementById("station-list");
         const irishStations = data.filter(s => s.countrycode === "IE" && s.language !== "arabic");
         console.log("Loaded stations from fallback local file.");
         displayStations(irishStations);
