@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
           playStation(url);
         }
       } else {
-        if (typeof currentSound !== "undefined") {
+        if (currentSound) {
           currentSound.stop();
           currentSound.unload();
         }
