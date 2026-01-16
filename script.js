@@ -1,5 +1,14 @@
     // Fetch Irish stations
     fetch("https://fi1.api.radio-browser.info/json/stations/search?limit=1000&countrycode=IE&hidebroken=true")
+// Escape HTML to prevent XSS
+function escapeHTML(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
       .then(response => response.json())
       .then(data => {
         const list = document.getElementById("station-list");
