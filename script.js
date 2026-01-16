@@ -1,73 +1,94 @@
-    // Fetch Irish stations
-    fetch("https://fi1.api.radio-browser.info/json/stations/search?limit=1000&countrycode=IE&hidebroken=true")
+// Escape HTML to prevent XSS
+function escapeHTML(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+
+function displayStations(irishStations) {
+  // get station list container
+  const list = document.getElementById("station-list");
+  // list items
+  irishStations.forEach( (station, index) => {
+    const div = document.createElement("div");
+    // add class to div
+    div.className = "station";
+    // add index to div
+    div.id = `station${index}`;
+    // add data-url to div
+    div.setAttribute("data-url", station.url_resolved);
+
+    div.innerHTML = `
+      <svg class="play-button" viewBox="0 0 200 200" width="30" height="30">
+        <title>Play</title>
+        <circle cx="100" cy="100" r="90" fill="none" stroke-width="9" stroke="#000"/>
+        <polygon points="70, 55 70, 145 145, 100" fill="#000"/>
+      </svg>
+
+      <svg class="stop-button" viewBox="0 0 200 200" width="30" height="30">
+        <title>Stop</title>
+        <circle cx="100" cy="100" r="90" fill="none" stroke-width="9" stroke="#CC0000"/>
+        <rect x="63" y="60" width="75" height="80" fill="#CC0000"/>
+      </svg>
+
+      <div class="sound-wave">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+
+      <div class="play-stop-button" style="background-image: url(${escapeHTML(station.favicon) ? escapeHTML(station.favicon) : 'images/radio-placeholder.png'})">
+        &nbsp;
+      </div>
+
+      <span class="line"></span>
+      <p>${escapeHTML(station.name)}</p>
+      <p style="display:none">${escapeHTML(station.lastchecktime)}</p> 
+      <a href="${station.homepage}" title="Go to ${escapeHTML(station.homepage)}" target="_blank" rel="noopener noreferrer">
+        Visit website
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
+          <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
+        </svg>
+      </a>
+    `;
+
+    list.appendChild(div);
+  });
+}
+    
+// Fetch Irish stations
+fetch("https://de1.api.radio-browser.info/json/stations/search?limit=1000&countrycode=IE&hidebroken=true")
+  .then(response => response.json())
+  .then(data => {
+    const irishStations = data.filter(s => s.countrycode === "IE" && s.language !== "arabic");
+    displayStations(irishStations);
+    console.log("Loaded stations from online source.");
+  })
+  .catch(error => {
+    fetch('radio-stations.json')
       .then(response => response.json())
       .then(data => {
-        const list = document.getElementById("station-list");
         const irishStations = data.filter(s => s.countrycode === "IE" && s.language !== "arabic");
-
-        // list items
-        irishStations.forEach( (station, index) => {
-          const div = document.createElement("div");
-          // add class to div
-          div.className = "station";
-          // add index to div
-          div.id = `station${index}`;
-          // add data-url to div
-          div.setAttribute("data-url", station.url_resolved);
-
-          div.innerHTML = `
-
-           <svg class="play-button" viewBox="0 0 200 200" alt="Play video" width="30" height="30">
-              <circle cx="100" cy="100" r="90" fill="none" stroke-width="9" stroke="#000"/>
-              <polygon points="70, 55 70, 145 145, 100" fill="#000"/>
-            </svg>
-
-            <svg class="stop-button" viewBox="0 0 200 200" width="30" height="30">
-              <circle cx="100" cy="100" r="90" fill="none" stroke-width="9" stroke="#CC0000"/>
-              <rect x="63" y="60" width="75" height="80" fill="#CC0000"/>
-            </svg>
-
-            <div class="sound-wave">
-              <div class="bar"></div>
-              <div class="bar"></div>
-              <div class="bar"></div>
-              <div class="bar"></div>
-              <div class="bar"></div>
-              <div class="bar"></div>
-              <div class="bar"></div>
-              <div class="bar"></div>
-              <div class="bar"></div>
-            </div>
-
-            <div class="play-stop-button" style="background-image: url(${station.favicon ? station.favicon : 'images/radio-placeholder.png'})">
-              &nbsp;
-            </div>
-
-            <span class="line"></span>
-
-            <p>${station.name}</p>
-            <p style="display:none">${station.lastchecktime}</p> 
-            <a href="${station.homepage}" title="Go to ${station.homepage}" target="_blank">
-              Visit website
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
-                <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
-              </svg>
-            </a>
-          `;
-      
-          list.appendChild(div);
-          });
-        })
-      .catch(error => {
-        console.error("Error loading stations:", error);
-        document.getElementById("station-list").innerHTML = "<li>Failed to load stations</li>";
+        console.log("Loaded stations from fallback local file.");
+        displayStations(irishStations);
+      })
+      .catch(fallbackError => {
+        console.error("Error loading fallback stations:", fallbackError);
       });
+  });
 
-  let currentSound = null;
-
-
-
+let currentSound = null;
 
 // Function to play station
 function playStation(url) {
@@ -104,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
           playStation(url);
         }
       } else {
-        if (typeof currentSound !== "undefined") {
+        if (currentSound) {
           currentSound.stop();
           currentSound.unload();
         }
@@ -212,21 +233,23 @@ function showHideClearSearchIcon() {
 // Back to top button functionality
 const backToTopBtn = document.querySelector('.arrow-up');
 
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 300) {
-    backToTopBtn.classList.add('show');
-  } else {
-    backToTopBtn.classList.remove('show');
-  }
-});
-
-backToTopBtn.addEventListener('click', function (event) {
-  event.preventDefault();
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
+if (backToTopBtn) {
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      backToTopBtn.classList.add('show');
+    } else {
+      backToTopBtn.classList.remove('show');
+    }
   });
-});
+
+  backToTopBtn.addEventListener('click', function (event) {
+    event.preventDefault();
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+}
 
 document.addEventListener('DOMContentLoaded', function() {
   const searchHolderContainer = document.querySelector('.search-holder-container');
