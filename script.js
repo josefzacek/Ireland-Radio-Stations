@@ -237,21 +237,22 @@ function showHideClearSearchIcon() {
 // Back to top button functionality
 const backToTopBtn = document.querySelector('.arrow-up');
 
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 300) {
-    backToTopBtn.classList.add('show');
-  } else {
-    backToTopBtn.classList.remove('show');
-  }
-});
-
-backToTopBtn.addEventListener('click', function (event) {
-  event.preventDefault();
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
+if (backToTopBtn) {
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      backToTopBtn.classList.add('show');
+    } else {
+      backToTopBtn.classList.remove('show');
+    }
   });
-});
+
+  backToTopBtn.addEventListener('click', function (event) {
+    event.preventDefault();
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
 
 document.addEventListener('DOMContentLoaded', function() {
   const searchHolderContainer = document.querySelector('.search-holder-container');
