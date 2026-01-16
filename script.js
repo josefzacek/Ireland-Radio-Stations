@@ -88,10 +88,7 @@ fetch("https://de1.api.radio-browser.info/json/stations/search?limit=1000&countr
       });
   });
 
-  let currentSound = null;
-
-
-
+let currentSound = null;
 
 // Function to play station
 function playStation(url) {
@@ -252,6 +249,7 @@ if (backToTopBtn) {
       behavior: 'smooth'
     });
   });
+}
 
 document.addEventListener('DOMContentLoaded', function() {
   const searchHolderContainer = document.querySelector('.search-holder-container');
