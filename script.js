@@ -73,14 +73,14 @@ fetch("https://de1.api.radio-browser.info/json/stations/search?limit=1000&countr
   .then(data => {
     const irishStations = data.filter(s => s.countrycode === "IE" && s.language !== "arabic");
     displayStations(irishStations);
-    console.log("Loaded stations from online source.");
+    document.body.style.borderTopColor = "var(--black)";
   })
   .catch(error => {
     fetch('radio-stations.json')
       .then(response => response.json())
       .then(data => {
         const irishStations = data.filter(s => s.countrycode === "IE" && s.language !== "arabic");
-        console.log("Loaded stations from fallback local file.");
+         document.body.style.borderTopColor = "var(--red)";
         displayStations(irishStations);
       })
       .catch(fallbackError => {
