@@ -21,6 +21,7 @@ body {
   background-image: url("images/headphones.jpg");
   background-repeat: no-repeat;
   background-position: top center;
+  border-top: 3px solid var(--yellow);
   & .container {
     max-width: 1110px;
     margin: 20vh auto 0 auto;
