@@ -198,6 +198,33 @@ document.getElementById('search-box').addEventListener('input', function () {
   }
 });
 
+// arrow key navigation through suggestions
+document.getElementById('search-box').addEventListener('keydown', function (event) {
+  const suggestionsBox = document.getElementById('search-box-suggestions');
+  const suggestions = suggestionsBox.querySelectorAll('.suggestion');
+  if (!suggestions.length) return;
+
+  const active = suggestionsBox.querySelector('.suggestion.keyboard-active');
+  let index = Array.from(suggestions).indexOf(active);
+
+  if (event.key === 'ArrowDown') {
+    event.preventDefault();
+    if (active) active.classList.remove('keyboard-active');
+    index = (index + 1) % suggestions.length;
+    suggestions[index].classList.add('keyboard-active');
+    suggestions[index].scrollIntoView({ block: 'nearest' });
+  } else if (event.key === 'ArrowUp') {
+    event.preventDefault();
+    if (active) active.classList.remove('keyboard-active');
+    index = (index - 1 + suggestions.length) % suggestions.length;
+    suggestions[index].classList.add('keyboard-active');
+    suggestions[index].scrollIntoView({ block: 'nearest' });
+  } else if (event.key === 'Enter' && active) {
+    event.preventDefault();
+    active.click();
+  }
+});
+
 // click on .clear-search button to clear search input box and suggestions
 document.querySelector('.clear-search').addEventListener('click', function () {
   resetSearch()
