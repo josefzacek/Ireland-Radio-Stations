@@ -147,13 +147,15 @@ body {
           max-height: 200px;
           overflow-y: auto;
           display: none;
-          & .suggestion {
+          .suggestion {
             padding: 10px 16px;
             cursor: pointer;
             color: var(--white);
-            &:hover { background: rgba(255,255,255,0.1); }
+            &:hover, &.keyboard-active {
+              background: rgba(255,255,255,0.1);
+            }
           }
-          & .no-search-results {
+          .no-search-results {
             padding: 10px 16px;
             font-weight: 500;
             color: #ff6b6b;
