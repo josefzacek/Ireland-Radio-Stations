@@ -3,7 +3,8 @@
   --red: #CC0000;
   --yellow: #fede5e;
   --white: #ffffff;
-  
+  --green: #34c759;
+  --dark-navy: #0d1b2a;
 }
 
 * { 
@@ -18,89 +19,180 @@ body {
   margin: 0;
   padding: 0;
   background-color: var(--yellow);
-  background-image: url("images/headphones.jpg");
-  background-repeat: no-repeat;
-  background-position: top center;
   border-top: 3px solid var(--yellow);
-  & .container {
-    max-width: 1110px;
-    margin: 20vh auto 0 auto;
-    padding: 20px;
-    & h1 {
-      line-height: 0.9em;
-      font-size: 50px;
-      text-shadow: -1px 0 var(--white), 0 1px var(--white), 1px 0 var(--white), 0 -1px var(--white);
+
+  .banner {
+    position: relative;
+    min-height: 340px;
+    background-size: cover;
+    background-position: center right;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--dark-navy);
+    align-items: center;
+    @media (min-width: 768px) {
+      background-image: url(images/Desktop-banner.avif);
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to right, var(--dark-navy) 20%, rgb(13 27 42) 52%, rgb(13 27 42 / 20%) 75%, transparent 100%);
+      }
     }
-  }
-  & .search-holder-container {
-    position: sticky;
-    top: 0;
-    z-index: 999;
-    padding: 10px 0;
-    margin-bottom: 60px;
-    &.active {
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      background: #fff;
+    img {
+      width: 100%;
+      height: auto;
+      @media(min-width: 768px) {
+        display: none;
+      }
     }
-    .search-holder {
-      position: relative;
-      max-width: 500px;
+    .container {
+      width: 100%;
+      max-width: 1400px;
       margin: 0 auto;
-      padding: 0 10px;
-      input[type="text"] {
-        display: block;
-        width: calc(100% - 20px);
-        padding: 10px;
-        font-weight: 400;
-        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-        background: white;
-        border-radius: 6px;
-        border: 2px solid #000;
-        font-size: 18px;
-        &.active {
-          border-bottom: none;
-          border-radius: 6px 6px 0 0;
+      padding: 0 20px;
+      box-sizing: border-box;
+      .content {
+        position: relative;
+        z-index: 1;
+        padding: 40px 0px;
+        max-width: 560px;
+        width: 100%;
+        box-sizing: border-box;
+        .text {
+          color: var(--green);
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 2px;
+          margin: 0 0 12px;
         }
-      }
-      svg.clear-search {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        cursor: pointer;
-        display: none;
-      }
-      #search-box-suggestions {
-        background: var(--white);
-        border-radius: 0 0 6px 6px;
-        border: 2px solid var(--black);
-        position: absolute;
-        z-index: 99;
-        width: calc(100% - 20px);
-        max-height: 178px;
-        overflow-y: scroll;
-        border-top: 1px solid var(--black);
-        display: none;
-        & .suggestion {
-          padding: 10px;
-          cursor: pointer;
-          &:hover {
-            background-color: var(--yellow);
+        h1 {
+          color: var(--white);
+          font-size: clamp(36px, 5vw, 68px);
+          font-weight: 800;
+          line-height: 1;
+          margin: 0 0 16px;
+          text-shadow: none;
+          & span {
+            color: var(--green);
           }
         }
-        & .no-search-results {
-          padding: 10px;
-          font-weight: 500;
-          color: var(--red);
+        .subtitle {
+          color: rgba(255,255,255,0.82);
+          font-size: 15px;
+          line-height: 1.5;
+          margin: 0 0 24px;
         }
       }
     }
+
+    & .search-holder-container {
+      position: relative;
+      top: auto;
+      z-index: 1;
+      padding: 0;
+      margin-bottom: 0;
+      &.active {
+        background: transparent;
+        box-shadow: none;
+      }
+      & .search-holder {
+        position: relative;
+        max-width: 480px;
+        margin: 0;
+        padding: 6px 6px 6px 16px;
+        display: flex;
+        align-items: center;
+        background: rgba(255,255,255,0.12);
+        border: 1.5px solid rgba(255,255,255,0.3);
+        border-radius: 50px;
+        & .search-icon {
+          color: rgba(255,255,255,0.65);
+          flex-shrink: 0;
+          margin-right: 8px;
+        }
+        & input[type="text"] {
+          flex: 1;
+          background: transparent;
+          border: none;
+          color: var(--white);
+          font-size: 15px;
+          outline: none;
+          width: auto;
+          padding: 6px 0;
+          &::placeholder { color: rgba(255,255,255,0.55); }
+          &.active {
+            border: none;
+            border-radius: 50px;
+          }
+        }
+        & svg.clear-search {
+          position: relative;
+          top: auto;
+          right: auto;
+          color: rgba(255,255,255,0.7);
+          margin: 0 8px;
+          cursor: pointer;
+          display: none;
+        }
+        & #search-box-suggestions {
+          position: absolute;
+          top: calc(100% + 8px);
+          left: 0;
+          right: 0;
+          background: var(--dark-navy);
+          border: 1px solid rgba(255,255,255,0.15);
+          border-radius: 12px;
+          z-index: 99;
+          max-height: 200px;
+          overflow-y: auto;
+          display: none;
+          & .suggestion {
+            padding: 10px 16px;
+            cursor: pointer;
+            color: var(--white);
+            &:hover { background: rgba(255,255,255,0.1); }
+          }
+          & .no-search-results {
+            padding: 10px 16px;
+            font-weight: 500;
+            color: #ff6b6b;
+          }
+        }
+      }
+    }
+
+    .hero-tagline {
+      position: absolute;
+      top: 20%;
+      right: 30px;
+      z-index: 1;
+      color: var(--white);
+      font-family: 'Dancing Script', cursive;
+      font-size: 24px;
+      text-align: center;
+      line-height: 1.2;
+      transform: rotate(-15deg);
+      @media (min-width: 768px) {
+        top: 70%;
+      }
+      &::after {
+        content: '';
+        display: block;
+        height: 2px;
+        background: var(--green);
+        border-radius: 1px;
+        margin-top: 5px;
+      }
+    }
   }
+
   &.page-404 {
     text-align: center;
     background-image: none;
   }
   & .container-fluid {
-  padding: 0 10px 30px 10px;
+    padding: 30px 10px 30px 10px;
     & .stations {
       display: flex;
       flex-wrap: wrap;
