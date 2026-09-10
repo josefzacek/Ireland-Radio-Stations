@@ -18,8 +18,8 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--yellow);
-  border-top: 3px solid var(--yellow);
+  background-color: var(--white);
+  border-top: 3px solid var(--white);
 
   .banner {
     position: relative;
@@ -213,6 +213,7 @@ body {
         box-sizing: border-box;
         justify-content: center;
         position: relative;
+        border: 1px solid #6b747d;
         @media (min-width: 768px) {
           flex-basis: calc(33.3% - 20px);
         }
