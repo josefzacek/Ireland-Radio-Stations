@@ -21,6 +21,7 @@ function displayStations(irishStations) {
     div.id = `station${index}`;
     // add data-url to div
     div.setAttribute("data-url", station.url_resolved);
+    div.setAttribute("data-name", station.name);
 
     div.innerHTML = `
       <svg class="play-button" viewBox="0 0 200 200" width="30" height="30">
@@ -67,6 +68,27 @@ function displayStations(irishStations) {
   });
 }
     
+function scrollToHashStation() {
+  const hash = decodeURIComponent(window.location.hash.slice(1));
+  if (!hash) return;
+
+  const stations = document.querySelectorAll('.station');
+  for (const station of stations) {
+    if (station.dataset.name === hash) {
+      const searchHolderContainer = document.querySelector('.search-holder-container');
+      const offset = searchHolderContainer ? searchHolderContainer.offsetHeight : 0;
+      const rect = station.getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const top = rect.top + scrollTop - offset - 10;
+
+      window.scrollTo({ top, behavior: 'smooth' });
+      station.classList.add('station-searched-for');
+      setTimeout(() => station.classList.remove('station-searched-for'), 3000);
+      break;
+    }
+  }
+}
+
 // Fetch Irish stations
 fetch("https://de1.api.radio-browser.info/json/stations/search?limit=1000&countrycode=IE&hidebroken=true")
   .then(response => response.json())
@@ -74,14 +96,16 @@ fetch("https://de1.api.radio-browser.info/json/stations/search?limit=1000&countr
     const irishStations = data.filter(s => s.countrycode === "IE" && s.language !== "arabic");
     displayStations(irishStations);
     document.body.style.borderTopColor = "var(--black)";
+    scrollToHashStation();
   })
-  .catch(error => {
+  .catch(() => {
     fetch('radio-stations.json')
       .then(response => response.json())
       .then(data => {
         const irishStations = data.filter(s => s.countrycode === "IE" && s.language !== "arabic");
-         document.body.style.borderTopColor = "var(--red)";
+        document.body.style.borderTopColor = "var(--red)";
         displayStations(irishStations);
+        scrollToHashStation();
       })
       .catch(fallbackError => {
         console.error("Error loading fallback stations:", fallbackError);
@@ -124,11 +148,16 @@ document.addEventListener("DOMContentLoaded", () => {
         if (url) {
           playStation(url);
         }
+        const stationName = parent.getAttribute("data-name");
+        if (stationName) {
+          history.replaceState(null, '', '#' + encodeURIComponent(stationName));
+        }
       } else {
         if (currentSound) {
           currentSound.stop();
           currentSound.unload();
         }
+        history.replaceState(null, '', location.pathname + location.search);
       }
     }
   });
