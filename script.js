@@ -140,8 +140,9 @@ function showNowPlayingBar(stationEl) {
   const name = stationEl.dataset.name;
   const playStopBtn = stationEl.querySelector('.play-stop-button');
   const bgImg = playStopBtn ? playStopBtn.style.backgroundImage : '';
+  const isPlaceholder = !bgImg || bgImg.includes('radio-placeholder');
   document.getElementById('npb-name').textContent = name;
-  document.getElementById('npb-logo').style.backgroundImage = bgImg || 'url(images/radio-placeholder.png)';
+  document.getElementById('npb-logo').style.backgroundImage = isPlaceholder ? 'url(images/missing-radio-icon.png)' : bgImg;
   setBarPlayingState(true);
   document.getElementById('now-playing-bar').classList.add('visible');
   document.body.classList.add('bar-visible');
