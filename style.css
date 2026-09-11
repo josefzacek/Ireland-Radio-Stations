@@ -423,6 +423,138 @@ body {
   }
 }
 
+/* now playing bar */
+.now-playing-bar {
+  position: fixed;
+  bottom: -90px;
+  left: 0;
+  right: 0;
+  height: 72px;
+  background: var(--dark-navy);
+  border-top: 1px solid rgba(255,255,255,0.12);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 20px;
+  z-index: 1500;
+  transition: bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
+  box-sizing: border-box;
+
+  &.visible {
+    bottom: 0;
+  }
+
+  .npb-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 0 0 220px;
+    min-width: 0;
+
+    @media (max-width: 600px) {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .npb-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-color: rgba(255,255,255,0.08);
+      flex-shrink: 0;
+    }
+
+    .npb-info {
+      min-width: 0;
+
+      .npb-name {
+        color: var(--white);
+        font-weight: 600;
+        font-size: 14px;
+        margin: 0 0 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .npb-subtitle {
+        color: rgba(255,255,255,0.55);
+        font-size: 12px;
+        margin: 0;
+      }
+    }
+  }
+
+  .npb-center {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    .npb-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(255,255,255,0.8);
+      padding: 6px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s, background 0.2s;
+
+      &:hover {
+        color: var(--white);
+        background: rgba(255,255,255,0.1);
+      }
+
+      &.npb-play-pause {
+        background: var(--green);
+        color: var(--white);
+        width: 44px;
+        height: 44px;
+
+        &:hover {
+          background: #2db84d;
+        }
+      }
+    }
+  }
+
+  .npb-right {
+    display: none;
+    @media (min-width: 768px) {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 0 0 220px;
+      justify-content: flex-end;
+    }
+    .npb-vol-icon {
+      color: rgba(255,255,255,0.7);
+      flex-shrink: 0;
+    }
+    .npb-volume {
+      width: 90px;
+      accent-color: var(--green);
+      cursor: pointer;
+    }
+  }
+}
+
+body.bar-visible {
+  padding-bottom: 72px;
+
+  & a.arrow-up {
+    bottom: 92px;
+  }
+}
+
 /* arrow up */
 a.arrow-up {
   position: fixed;

@@ -113,6 +113,7 @@ fetch("https://de1.api.radio-browser.info/json/stations/search?limit=1000&countr
   });
 
 let currentSound = null;
+let currentStationEl = null;
 
 // Function to play station
 function playStation(url) {
@@ -129,7 +130,40 @@ function playStation(url) {
     format: ['mp3', 'aac'] // Optional hint
   });
 
+  const vol = parseFloat(document.getElementById('npb-volume').value);
+  currentSound.volume(vol);
   currentSound.play();
+}
+
+function showNowPlayingBar(stationEl) {
+  currentStationEl = stationEl;
+  const name = stationEl.dataset.name;
+  const playStopBtn = stationEl.querySelector('.play-stop-button');
+  const bgImg = playStopBtn ? playStopBtn.style.backgroundImage : '';
+  document.getElementById('npb-name').textContent = name;
+  document.getElementById('npb-logo').style.backgroundImage = bgImg || 'url(images/radio-placeholder.png)';
+  setBarPlayingState(true);
+  document.getElementById('now-playing-bar').classList.add('visible');
+  document.body.classList.add('bar-visible');
+}
+
+function hideNowPlayingBar() {
+  document.getElementById('now-playing-bar').classList.remove('visible');
+  document.body.classList.remove('bar-visible');
+  currentStationEl = null;
+}
+
+function setBarPlayingState(isPlaying) {
+  const bar = document.getElementById('now-playing-bar');
+  const pauseIcon = bar.querySelector('.npb-pause-icon');
+  const playIcon = bar.querySelector('.npb-play-icon');
+  if (isPlaying) {
+    pauseIcon.style.display = '';
+    playIcon.style.display = 'none';
+  } else {
+    pauseIcon.style.display = 'none';
+    playIcon.style.display = '';
+  }
 }
 
 // Event listener for play/stop
@@ -152,13 +186,53 @@ document.addEventListener("DOMContentLoaded", () => {
         if (stationName) {
           history.replaceState(null, '', '#' + encodeURIComponent(stationName));
         }
+        showNowPlayingBar(parent);
       } else {
         if (currentSound) {
           currentSound.stop();
           currentSound.unload();
         }
         history.replaceState(null, '', location.pathname + location.search);
+        hideNowPlayingBar();
       }
+    }
+  });
+
+  // Bar play/pause
+  document.getElementById('npb-play-pause').addEventListener('click', () => {
+    if (!currentStationEl) return;
+    if (currentSound && currentSound.playing()) {
+      currentSound.pause();
+      setBarPlayingState(false);
+      currentStationEl.classList.remove('active');
+    } else if (currentSound) {
+      currentSound.play();
+      setBarPlayingState(true);
+      currentStationEl.classList.add('active');
+    }
+  });
+
+  // Bar prev/next
+  document.getElementById('npb-prev').addEventListener('click', () => {
+    const stations = document.querySelectorAll('.station');
+    if (!currentStationEl || !stations.length) return;
+    const idx = Array.from(stations).indexOf(currentStationEl);
+    const target = stations[(idx - 1 + stations.length) % stations.length];
+    target.querySelector('.play-stop-button').click();
+  });
+
+  document.getElementById('npb-next').addEventListener('click', () => {
+    const stations = document.querySelectorAll('.station');
+    if (!currentStationEl || !stations.length) return;
+    const idx = Array.from(stations).indexOf(currentStationEl);
+    const target = stations[(idx + 1) % stations.length];
+    target.querySelector('.play-stop-button').click();
+  });
+
+  // Bar volume
+  document.getElementById('npb-volume').addEventListener('input', function () {
+    if (currentSound) {
+      currentSound.volume(parseFloat(this.value));
     }
   });
 });
